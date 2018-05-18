@@ -21,7 +21,24 @@ var allQuestions = [
 var currentquestion = 0;
 var correctAnswers = 0;
 
+var totalSeconds = 60;
+var minutes = parseInt(totalSeconds / 60);
+var seconds = parseInt(totalSeconds % 60);
 
+
+function checkTime() {
+    document.getElementById("quiz-time-left").innerHTML = "Time Left: " + minutes + " minutes " + seconds + " seconds";
+    // $("quiz-time-left").html = "Time Left: " + minutes + " minutes " + seconds + " seconds";
+    if (totalSeconds <= 0) {
+        setTimeout("document.quiz.submit()", 1000);
+    } else {
+        totalSeconds = totalSeconds - 1;
+        minutes = parseInt(totalSeconds / 60);
+        seconds = parseInt(totalSeconds % 60);
+        setTimeout("checkTime()", 1000);
+    }
+}
+setTimeout("checkTime()", 1000)
 
 
 function setupOptions() {
@@ -34,8 +51,6 @@ function setupOptions() {
     $('#form').html(formHtml);
     $(".options:eq(0)").prop('checked', true);
 }
-
-
 
 function checkAns() {
     if ($("input[name=option]:checked").val() == allQuestions[currentquestion].correctAnswer) {
